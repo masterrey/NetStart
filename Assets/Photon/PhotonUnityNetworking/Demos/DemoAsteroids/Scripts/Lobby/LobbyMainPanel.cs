@@ -239,6 +239,7 @@ namespace Photon.Pun.Demo.Asteroids
             {
                 PhotonNetwork.LocalPlayer.NickName = playerName;
                 PhotonNetwork.ConnectUsingSettings();
+
             }
             else
             {
