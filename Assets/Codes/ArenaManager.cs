@@ -6,31 +6,22 @@ using UnityEngine;
 
 public class ArenaManager : MonoBehaviour
 {
-    public GameObject prefabPlayer;
-    // Start is called before the first frame update
+    // public GameObject prefabPlayer;
+
     void Start()
     {
-        /*
-        foreach(Player p in PhotonNetwork.PlayerList)
-        {
-            GameObject Player=Instantiate(prefabPlayer);
-            Player.GetComponentInChildren<TextMesh>().text = p.NickName;
-            
-        }
-        */
-        Invoke("StartGame", 10);
+        // foreach (var p in PhotonNetwork.PlayerList)
+        // {
+        //     var Player = Instantiate(prefabPlayer);
+        //     Player.GetComponentInChildren<TextMesh>().text = p.NickName;
+        // }
+
+        Invoke(nameof(StartGame), 10);
     }
 
-    // Update is called once per frame
-    void Update()
+    void StartGame()
     {
-        
-    }
-
-   void StartGame()
-    {
-        GameObject Player = PhotonNetwork.Instantiate("MyPlayer", Vector3.zero, Quaternion.identity, 0);
-        Player.GetComponentInChildren<TextMesh>().text = Player.GetComponent<PhotonView>().Owner.NickName;
-
+        var player = PhotonNetwork.Instantiate("MyPlayer", Vector3.zero, Quaternion.identity, 0);
+        player.GetComponentInChildren<TextMesh>().text = player.GetComponent<PhotonView>().Owner.NickName;
     }
 }
