@@ -1,62 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
 using Photon.Pun;
 
+using static Photon.Pun.PhotonNetwork;
+
 public class MyLobby : MonoBehaviourPunCallbacks
 {
     public InputField namefield;
     public GameObject roomPanel;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void PlayGame()
     {
-        string field = namefield.text;
-
-        PhotonNetwork.LocalPlayer.NickName = field;
-        PhotonNetwork.ConnectUsingSettings();
+        var field = namefield.text;
+        LocalPlayer.NickName = field;
+        ConnectUsingSettings();
     }
 
-    public void JoinRoom()
-    {
-        PhotonNetwork.JoinRandomRoom();
-    }
+    public void JoinRoom() => JoinRandomRoom();
 
-    public override void OnConnectedToMaster()
-    {
-
-        roomPanel.SetActive(true);
-    }
+    public override void OnConnectedToMaster() => roomPanel.SetActive(true);
 
     public override void OnJoinedRoom()
     {
-        
-        print("Conectado na room: "+ PhotonNetwork.CurrentRoom.Name);
-
-        PhotonNetwork.LoadLevel("Arena");
+        print($"Conectado na room: {CurrentRoom.Name}");
+        LoadLevel("Arena");
     }
-
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         print("Não tem nenhuma sala, criando uma...");
-        string name = "Sala" + Random.Range(0, 1000);
-        RoomOptions op = new RoomOptions();
-        op.MaxPlayers = 8;
-        PhotonNetwork.CreateRoom(name, op, null);
-        print("NomedaSala: " + name);
+        var roomName = $"Sala_{Guid.NewGuid()}";
+        
+        var op = new RoomOptions
+        {
+            MaxPlayers = 8
+        };
+        
+        CreateRoom(roomName, op);
+        print($"NomedaSala: {roomName}");
     }
 
 }
