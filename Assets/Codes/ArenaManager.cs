@@ -18,7 +18,7 @@ public class ArenaManager : MonoBehaviour
             
         }
         */
-        Invoke("StartGame", 10);
+        Invoke("StartGame", 3);
     }
 
     // Update is called once per frame
@@ -29,8 +29,8 @@ public class ArenaManager : MonoBehaviour
 
    void StartGame()
     {
-        GameObject Player = PhotonNetwork.Instantiate("MyPlayer", Vector3.zero, Quaternion.identity, 0);
-        Player.GetComponentInChildren<TextMesh>().text = Player.GetComponent<PhotonView>().Owner.NickName;
+        GameObject Player = PhotonNetwork.Instantiate(prefabPlayer.name, Vector3.zero, Quaternion.identity, 0);
+        //Player.GetComponentInChildren<TextMesh>().text = Player.GetComponent<PhotonView>().Owner.NickName;
 
     }
 }

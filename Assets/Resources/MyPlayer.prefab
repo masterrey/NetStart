@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be0fa4740f4b430469155b63fc833f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myname: {fileID: 3101737607675872323}
   pview: {fileID: 8239603790322952457}
 --- !u!1 &4753397954224296761
 GameObject:

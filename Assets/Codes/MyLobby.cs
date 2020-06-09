@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Realtime;
 using Photon.Pun;
+using System;
 
 public class MyLobby : MonoBehaviourPunCallbacks
 {
@@ -24,7 +25,10 @@ public class MyLobby : MonoBehaviourPunCallbacks
     public void PlayGame()
     {
         string field = namefield.text;
-
+        if (string.IsNullOrWhiteSpace(field))
+        {
+            field= "Fulano " + Guid.NewGuid();
+        }
         PhotonNetwork.LocalPlayer.NickName = field;
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -42,7 +46,7 @@ public class MyLobby : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        
+       
         print("Conectado na room: "+ PhotonNetwork.CurrentRoom.Name);
 
         PhotonNetwork.LoadLevel("Arena");
@@ -52,7 +56,7 @@ public class MyLobby : MonoBehaviourPunCallbacks
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         print("Não tem nenhuma sala, criando uma...");
-        string name = "Sala" + Random.Range(0, 1000);
+        string name = "Sala " + Guid.NewGuid();
         RoomOptions op = new RoomOptions();
         op.MaxPlayers = 8;
         PhotonNetwork.CreateRoom(name, op, null);
