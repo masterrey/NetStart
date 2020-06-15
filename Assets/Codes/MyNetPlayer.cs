@@ -12,6 +12,7 @@ public class MyNetPlayer : MonoBehaviour
     Vector3 myinput;
     public Animator anim;
     public SkinnedMeshRenderer[] rends;
+    float velocityMul=5;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,7 +54,7 @@ public class MyNetPlayer : MonoBehaviour
 
         if (pview.IsMine)
         {
-            rdb.velocity = myinput*5;
+            rdb.velocity = myinput* velocityMul;
 
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),out RaycastHit hit, 100))
             {
@@ -61,5 +62,19 @@ public class MyNetPlayer : MonoBehaviour
                 transform.LookAt(myhit);
             }
         }
+    }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        StartCoroutine(Slowmotion());
+    }
+
+    IEnumerator Slowmotion()
+    {
+
+        velocityMul = 1;
+        yield return new WaitForSeconds(3);
+        velocityMul = 5;
+
     }
 }
