@@ -73,7 +73,7 @@ public class MyNetPlayer : MonoBehaviour
     {
 
         velocityMul = 1;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         velocityMul = 5;
 
     }
