@@ -28,11 +28,11 @@ public class GameBall : MonoBehaviour
     [PunRPC]
     void BallForce(Vector3 dir)
     {
-        rdb.AddForce(dir* 10, ForceMode.Impulse);
+        rdb.AddForce(dir, ForceMode.Impulse);
     }
 
     [PunRPC]
-    void ResetBall(Vector3 dir)
+    void ResetBall()
     {
         rdb.velocity = Vector3.zero;
         transform.position = Vector3.up*5;
