@@ -5,7 +5,9 @@ using UnityEngine;
 public class MyCam : MonoBehaviour
 {
     public GameObject target;
+    public GameObject targetBall;
     public Vector3 offset;
+    public float ajust=4;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +25,13 @@ public class MyCam : MonoBehaviour
     {
         if (target)
         {
-            transform.LookAt(target.transform);
-            transform.position = target.transform.position + offset;
+            
+           Vector3 dir = (target.transform.position - targetBall.transform.position)/2;
+
+            Vector3 median = (target.transform.position + targetBall.transform.position) / 2;
+
+            transform.LookAt(median);
+            transform.position = median + offset * Mathf.Clamp((dir.magnitude*0.2f),1,100);
         }
     }
 }
