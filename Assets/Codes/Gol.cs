@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Gol : MonoBehaviour
 {
+    public GameObject gameManager;
+    public string functionName;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +22,9 @@ public class Gol : MonoBehaviour
     {
         if (other.CompareTag("Ball"))
         {
-            other.transform.position =  Vector3.up*5;
+
+            gameManager.SendMessage(functionName);
+            other.SendMessage("MyReset");
         }
     }
 }

@@ -30,4 +30,16 @@ public class GameBall : MonoBehaviour
     {
         rdb.AddForce(dir* 10, ForceMode.Impulse);
     }
+
+    [PunRPC]
+    void ResetBall(Vector3 dir)
+    {
+        rdb.velocity = Vector3.zero;
+        transform.position = Vector3.up*5;
+    }
+
+    public void MyReset()
+    {
+        pview.RPC("ResetBall", RpcTarget.All);
+    }
 }
