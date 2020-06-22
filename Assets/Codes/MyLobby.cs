@@ -10,6 +10,7 @@ public class MyLobby : MonoBehaviourPunCallbacks
 {
     public InputField namefield;
     public GameObject roomPanel;
+    public GameObject gameRoomContent;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,8 @@ public class MyLobby : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-
+     
+      
     }
 
     public void PlayGame()
@@ -42,16 +44,43 @@ public class MyLobby : MonoBehaviourPunCallbacks
     {
 
         roomPanel.SetActive(true);
+
     }
 
     public override void OnJoinedRoom()
     {
-       
+        GameObject ob = PhotonNetwork.Instantiate("PlayerUIRoom", Vector3.zero, Quaternion.identity);
+        ob.transform.SetParent(gameRoomContent.transform);
+        ob.GetComponent<RectTransform>().localPosition = new Vector3(100,-20,0);
+
+
+        Invoke("FixName", 2);
+
         print("Conectado na room: "+ PhotonNetwork.CurrentRoom.Name);
 
-        PhotonNetwork.LoadLevel("Arena");
+       // PhotonNetwork.LoadLevel("Arena");
     }
 
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        print("other entered");
+        Invoke("FixName", 2);
+       
+    }
+
+    void FixName()
+    {
+        print("searching "+ gameRoomContent.name);
+        GameObject[] obs = GameObject.FindGameObjectsWithTag("UIPlayer");
+        foreach(GameObject ob in obs)
+        {
+            ob.transform.SetParent(gameRoomContent.transform);
+            ob.GetComponent<RectTransform>().localPosition = new Vector3(100, -20, 0);
+            print("founded");
+        }
+
+    }
+    
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {

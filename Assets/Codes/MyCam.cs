@@ -31,7 +31,7 @@ public class MyCam : MonoBehaviour
             Vector3 median = (target.transform.position + targetBall.transform.position) / 2;
 
             transform.LookAt(median);
-            transform.position = median + offset * Mathf.Clamp((dir.magnitude*0.2f),1,100);
+            transform.position = median + offset * Mathf.Clamp((dir.magnitude*0.2f),1,2);
         }
     }
 }
