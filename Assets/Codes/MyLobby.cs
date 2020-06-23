@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Photon.Realtime;
 using Photon.Pun;
 using System;
+using System.Linq;
 
 public class MyLobby : MonoBehaviourPunCallbacks
 {
@@ -100,11 +101,8 @@ public class MyLobby : MonoBehaviourPunCallbacks
         bool allready = true;
         if (playerUIRooms.Count >1)
         {
+            allready = playerUIRooms.All(x => x.ready);//Soluçao LucasTeles
 
-            foreach (PlayerUIRoom pui in playerUIRooms)
-            {
-                allready=pui.bready;
-            }
             if (allready)
             {
                
