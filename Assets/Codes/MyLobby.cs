@@ -98,15 +98,15 @@ public class MyLobby : MonoBehaviourPunCallbacks
 
     void CheckAllReady()
     {
-        bool allready = true;
+        bool allready = false;
         if (playerUIRooms.Count >1)
         {
-            allready = playerUIRooms.All(x => x.ready);//Soluçao LucasTeles
+            allready = playerUIRooms.All(x => x.bready);//Soluçao LucasTeles
 
             if (allready)
             {
-               
-                pview.RPC("BroadcastLoadScene", RpcTarget.AllBuffered);
+                
+               pview.RPC("BroadcastLoadScene", RpcTarget.AllBuffered);
             }
         }
     }
