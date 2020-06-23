@@ -11,10 +11,12 @@ public class MyLobby : MonoBehaviourPunCallbacks
     public InputField namefield;
     public GameObject roomPanel;
     public GameObject gameRoomContent;
+    public List<PlayerUIRoom> playerUIRooms;
+    public PhotonView pview;
     // Start is called before the first frame update
     void Start()
     {
-
+        InvokeRepeating("CheckAllReady", 1, 1);
     }
 
     // Update is called once per frame
@@ -51,9 +53,6 @@ public class MyLobby : MonoBehaviourPunCallbacks
     {
         GameObject ob = PhotonNetwork.Instantiate("PlayerUIRoom", Vector3.zero, Quaternion.identity);
         ob.transform.SetParent(gameRoomContent.transform);
-        ob.GetComponent<RectTransform>().localPosition = new Vector3(100,-20,0);
-
-
         Invoke("FixName", 2);
 
         print("Conectado na room: "+ PhotonNetwork.CurrentRoom.Name);
@@ -75,9 +74,13 @@ public class MyLobby : MonoBehaviourPunCallbacks
         foreach(GameObject ob in obs)
         {
             ob.transform.SetParent(gameRoomContent.transform);
-            ob.GetComponent<RectTransform>().localPosition = new Vector3(100, -20, 0);
             print("founded");
+            if (!playerUIRooms.Contains(ob.GetComponent<PlayerUIRoom>()))
+            {
+                playerUIRooms.Add(ob.GetComponent<PlayerUIRoom>());
+            }
         }
+        
 
     }
     
@@ -90,6 +93,30 @@ public class MyLobby : MonoBehaviourPunCallbacks
         op.MaxPlayers = 8;
         PhotonNetwork.CreateRoom(name, op, null);
         print("NomedaSala: " + name);
+    }
+
+    void CheckAllReady()
+    {
+        bool allready = true;
+        if (playerUIRooms.Count >1)
+        {
+
+            foreach (PlayerUIRoom pui in playerUIRooms)
+            {
+                allready=pui.bready;
+            }
+            if (allready)
+            {
+               
+                pview.RPC("BroadcastLoadScene", RpcTarget.AllBuffered);
+            }
+        }
+    }
+
+    [PunRPC]
+    void BroadcastLoadScene()
+    {
+        PhotonNetwork.LoadLevel("Arena");
     }
 
 }
